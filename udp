@@ -1,0 +1,124 @@
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
+
+/**
+ * @ClassName Input
+ * @Description TODO
+ * @Auther danni
+ * @Date 2019/12/31 17:44]
+ * @Version 1.0
+ **/
+
+public class Input {
+    /* *
+        * 1:可以从文件中读取。
+        * 2：可以从网络中读。
+        * 3：可以从内存中读。
+        * 4：可以从标准输入读。
+        * @Date 17:46 2019/12/31
+        * @Param []
+        * @return java.io.InputStream
+     **/
+    private static InputStream 获取一个输入流()throws  IOException{
+        InputStream is=null;
+       // is=new FileInputStream("demo.txt");
+
+      /*  Socket socket=new Socket("www.baidu.com",80);
+        OutputStream os=socket.getOutputStream();
+        Writer writer=new OutputStreamWriter(os);
+        PrintWriter pw=new PrintWriter(writer);
+        pw.printf("GET/HTTP/1.0\r\n\r\n");
+        pw.flush();
+        is=socket.getInputStream();*/
+
+        /*byte[] bytes="我只是一段内存".getBytes();
+        is=new ByteArrayInputStream(bytes);*/
+
+        is=System.in;
+
+        return is;
+    }
+
+    /*  *1：直接通过字节方式读，然后程序进行字符编码（buffer大小<数据长度/精确控制字符都比较麻烦）
+        *2：把Stream转化为Reader,进行字符形式读取
+        *   2.1：直接读
+        *   2.2：BufferedReader readLine
+        * 3:Scanner也可以
+        * @Date 17:48 2019/12/31
+        * @Param
+        * @return
+     **/
+    private static String 从字节中最终获取字符数据(InputStream is) throws IOException {
+        String message="";
+       /* byte[] buff=new byte[1024];
+        int len=is.read(buff);
+        meaasge=new String(buff,0,len,"utf-8");*/
+
+      /* Reader reader=new InputStreamReader(is,"UTF-8");
+       char[] buff=new char[1024];
+       int len=reader.read(buff);
+       message=new String(buff,0,len);*/
+
+     /* StringBuilder sb=new StringBuilder();
+      Reader reader=new InputStreamReader(is,"UTF-8");
+      char[] buff=new char[10];
+      int len=-1;
+      while((len=reader.read(buff))!=-1){
+          sb.append(buff,0,len);
+      }
+      message=sb.toString();*/
+
+     /*Reader reader=new InputStreamReader(is);
+      BufferedReader bufferedReader=new BufferedReader(reader);
+      String line;
+      StringBuilder sb=new StringBuilder();
+      while((line=bufferedReader.readLine())!=null){
+          sb.append(line+"\r\n");
+      }
+      message=sb.toString();*/
+
+     /*Scanner scanner=new Scanner(is,"UTF-8");
+     return scanner.nextLine();*/
+
+
+     return message;
+    }
+
+    /* *
+        * @Author danni
+        * @Description ctrl+d:结束一个输入
+        * @Date 18:11 2019/12/31
+        * @Param
+        * @return
+     **/
+    private static OutputStream 获取一个输出流() throws  IOException {
+        OutputStream os=null;
+
+        //os=new FileOutputStream("test.txt");
+
+        /*Socket socket=new Socket("www.baidu.com",80);
+        os=socket.getOutputStream();*/
+
+        os=new ByteArrayOutputStream();
+        return os;
+    }
+
+    private static void 输出一段字符(OutputStream os,String message) throws IOException {
+        byte[] buffer=message.getBytes("UTF-8");
+       // os.write(buffer);
+
+       /* Writer writer=new OutputStreamWriter(os);
+        writer.append(message);
+        writer.flush();*/
+
+       PrintWriter printWriter=new PrintWriter(new OutputStreamWriter(os));
+       printWriter.print(buffer);
+       printWriter.flush();
+
+    }
+    public static void main(String[] args) throws IOException {
+        InputStream is=获取一个输入流();
+        String meaasge=从字节中最终获取字符数据(is);
+    }
+}
